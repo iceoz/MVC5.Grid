@@ -12,6 +12,21 @@ namespace NonFactors.Mvc.Grid
         public String EmptyText { get; set; }
         public String CssClasses { get; set; }
 
+        private String _AjaxUrl { get; set; }
+        public String AjaxUrl
+        {
+            get
+            {
+                return _AjaxUrl;
+            }
+            set
+            {
+                _AjaxUrl = value;
+                IsAjaxUrlSetted = !(String.IsNullOrWhiteSpace(value) || String.IsNullOrEmpty(value));
+            }
+        }
+        public bool IsAjaxUrlSetted { get; private set; }
+
         public IQueryable<T> Source { get; set; }
         public NameValueCollection Query { get; set; }
         public HttpContextBase HttpContext { get; set; }

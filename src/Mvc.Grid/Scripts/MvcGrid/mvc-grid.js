@@ -18,6 +18,7 @@ var MvcGrid = (function () {
         this.reloadFailed = options.reloadFailed;
         this.reloadStarted = options.reloadStarted;
         this.sourceUrl = options.sourceUrl || grid.data('source-url') || '';
+        this.ajaxUrl = grid.data('ajax-url');
         this.filters = $.extend({
             'Text': new MvcGridTextFilter(),
             'Date': new MvcGridDateFilter(),
@@ -35,6 +36,11 @@ var MvcGrid = (function () {
             }
         } else {
             this.gridQuery = window.location.search.replace('?', '');
+        }
+
+        if (this.ajaxUrl != '') {
+            options.isLoaded = true;
+            this.sourceUrl = this.ajaxUrl;
         }
 
         if (options.reload === true || (this.sourceUrl != '' && !options.isLoaded)) {

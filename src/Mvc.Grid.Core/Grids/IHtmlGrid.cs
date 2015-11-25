@@ -7,7 +7,7 @@ namespace NonFactors.Mvc.Grid
     {
         IGrid<T> Grid { get; }
         String PartialViewName { get; set; }
-
+        
         IHtmlGrid<T> Build(Action<IGridColumns<T>> builder);
         IHtmlGrid<T> ProcessWith(IGridProcessor<T> processor);
 
@@ -25,5 +25,8 @@ namespace NonFactors.Mvc.Grid
 
         IHtmlGrid<T> Pageable(Action<IGridPager<T>> builder);
         IHtmlGrid<T> Pageable();
+
+        IHtmlGrid<T> AjaxUrl(String controllerName, String actionName);
+        IHtmlGrid<T> AjaxUrl(String actionName);
     }
 }

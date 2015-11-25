@@ -11,6 +11,8 @@ namespace NonFactors.Mvc.Grid
         String Name { get; set; }
         String EmptyText { get; set; }
         String CssClasses { get; set; }
+        String AjaxUrl { get; set; }
+        bool IsAjaxUrlSetted { get; }
 
         NameValueCollection Query { get; set; }
         HttpContextBase HttpContext { get; set; }

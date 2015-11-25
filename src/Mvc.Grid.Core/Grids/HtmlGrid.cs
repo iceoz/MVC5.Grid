@@ -111,5 +111,19 @@ namespace NonFactors.Mvc.Grid
         {
             return Html.Partial(PartialViewName, Grid).ToHtmlString();
         }
+
+
+        public IHtmlGrid<T> AjaxUrl(String actionName, String controllerName)
+        {
+            Grid.AjaxUrl = new UrlHelper(Html.ViewContext.RequestContext).Action(actionName, controllerName);
+
+            return this;
+        }
+        public IHtmlGrid<T> AjaxUrl(String actionName)
+        {
+            Grid.AjaxUrl = new UrlHelper(Html.ViewContext.RequestContext).Action(actionName);
+
+            return this;
+        }
     }
 }

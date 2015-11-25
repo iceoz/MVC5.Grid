@@ -2,7 +2,7 @@
 
 @model IGrid
 
-<div class="mvc-grid" data-name="@Model.Name">
+<div class="mvc-grid" data-name="@Model.Name" @(Model.IsAjaxUrlSetted ? "data-ajax-url=" + Model.AjaxUrl : "")>
     <table class="table mvc-grid-table @Model.CssClasses">
         <thead>
             <tr>
