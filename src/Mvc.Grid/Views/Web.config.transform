@@ -2,7 +2,7 @@
   <system.web.webPages.razor>
     <pages>
       <namespaces>
-        <add namespace="NonFactors.Mvc.Grid" />
+        <add namespace="Iceoz.Mvc.Grid" />
       </namespaces>
     </pages>
   </system.web.webPages.razor>

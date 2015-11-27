@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 
-namespace NonFactors.Mvc.Grid
+namespace Iceoz.Mvc.Grid
 {
     public interface IGrid
     {

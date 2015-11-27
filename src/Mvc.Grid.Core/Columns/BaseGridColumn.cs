@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 
-namespace NonFactors.Mvc.Grid
+namespace Iceoz.Mvc.Grid
 {
     public abstract class BaseGridColumn<T, TValue> : IGridColumn<T>
     {

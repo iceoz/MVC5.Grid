@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace NonFactors.Mvc.Grid
+namespace Iceoz.Mvc.Grid
 {
     public interface IGridColumns : IEnumerable<IGridColumn>
     {

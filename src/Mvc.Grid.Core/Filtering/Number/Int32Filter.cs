@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NonFactors.Mvc.Grid
+namespace Iceoz.Mvc.Grid
 {
     public class Int32Filter : NumberFilter
     {

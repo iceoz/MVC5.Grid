@@ -1,6 +1,6 @@
 ﻿/*!
- * Mvc.Grid 2.2.2
- * https://github.com/NonFactors/MVC5.Grid
+ * Mvc.Grid 1.0
+ * https://github.com/Iceoz/MVC5.Grid
  *
  * Copyright © NonFactors
  *
@@ -26,6 +26,11 @@ var MvcGrid = (function () {
             'Boolean': new MvcGridBooleanFilter()
         }, options.filters);
 
+        if (this.ajaxUrl != '') {
+            options.isLoaded = true;
+            this.sourceUrl = this.ajaxUrl;
+        }
+
         if (this.sourceUrl != '') {
             var splitIndex = this.sourceUrl.indexOf('?');
             if (splitIndex > -1) {
@@ -37,12 +42,7 @@ var MvcGrid = (function () {
         } else {
             this.gridQuery = window.location.search.replace('?', '');
         }
-
-        if (this.ajaxUrl != '') {
-            options.isLoaded = true;
-            this.sourceUrl = this.ajaxUrl;
-        }
-
+        
         if (options.reload === true || (this.sourceUrl != '' && !options.isLoaded)) {
             this.reload(this.gridQuery);
             return;
@@ -150,11 +150,12 @@ var MvcGrid = (function () {
                     if (grid.reloadEnded) {
                         grid.reloadEnded(grid);
                     }
+                    
+                    $newGrid = $(result);
 
-                    grid.element.hide();
-                    grid.element.after(result);
+                    $(grid.element).replaceWith($newGrid);
 
-                    grid.element.next('.mvc-grid').mvcgrid({
+                    $newGrid.mvcgrid({
                         reloadStarted: grid.reloadStarted,
                         reloadFailed: grid.reloadFailed,
                         reloadEnded: grid.reloadEnded,
@@ -164,7 +165,6 @@ var MvcGrid = (function () {
                         isLoaded: true,
                         query: query
                     });
-                    grid.element.remove();
                 })
                 .error(function (result) {
                     if (grid.reloadFailed) {

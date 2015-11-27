@@ -1,4 +1,4 @@
-﻿namespace NonFactors.Mvc.Grid
+﻿namespace Iceoz.Mvc.Grid
 {
     public enum GridSortOrder
     {

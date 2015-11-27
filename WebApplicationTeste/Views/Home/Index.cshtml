@@ -1,0 +1,36 @@
+﻿@model IList<Pessoa>
+@{
+    ViewBag.Title = "Index";
+    bool onlyTable = ViewBag.onlyTable ?? false;
+    Layout = onlyTable ? "" : "~/Views/Shared/_Layout.cshtml";
+
+    var table = Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+        columns.Add(mdl => mdl.Nome).Titled("Nome");
+        columns.Add(mdl => mdl.SobreNome).Titled("Sobrenome");
+        columns.Add(mdl => mdl.Idade).Titled("Idade");
+        columns.Add(mdl => mdl.Documento).Titled("Documento");
+    })
+    .Filterable(false)
+    .Sortable(false)
+    .AjaxUrl("xunxo");
+}
+
+@if (onlyTable)
+{
+    @table
+}
+else
+{
+
+    <script>
+        $(document).ready(function () {
+            $('.mvc-grid').mvcgrid();
+        });
+    </script>
+
+    @table
+
+}

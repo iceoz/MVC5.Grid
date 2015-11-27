@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
-namespace NonFactors.Mvc.Grid
+namespace Iceoz.Mvc.Grid
 {
     public class HtmlGrid<T> : IHtmlGrid<T>
     {
@@ -122,6 +122,21 @@ namespace NonFactors.Mvc.Grid
         public IHtmlGrid<T> AjaxUrl(String actionName)
         {
             Grid.AjaxUrl = new UrlHelper(Html.ViewContext.RequestContext).Action(actionName);
+
+            return this;
+        }
+
+
+        public IHtmlGrid<T> AjaxUrl(string controllerName, string actionName, object routeValues)
+        {
+            Grid.AjaxUrl = new UrlHelper(Html.ViewContext.RequestContext).Action(actionName, controllerName, routeValues);
+
+            return this;
+        }
+
+        public IHtmlGrid<T> AjaxUrl(string actionName, object routeValues)
+        {
+            Grid.AjaxUrl = new UrlHelper(Html.ViewContext.RequestContext).Action(actionName, routeValues);
 
             return this;
         }

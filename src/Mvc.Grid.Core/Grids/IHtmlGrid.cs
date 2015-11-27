@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 
-namespace NonFactors.Mvc.Grid
+namespace Iceoz.Mvc.Grid
 {
     public interface IHtmlGrid<T> : IHtmlString
     {
@@ -26,7 +26,9 @@ namespace NonFactors.Mvc.Grid
         IHtmlGrid<T> Pageable(Action<IGridPager<T>> builder);
         IHtmlGrid<T> Pageable();
 
+        IHtmlGrid<T> AjaxUrl(String controllerName, String actionName, object routeValues);
         IHtmlGrid<T> AjaxUrl(String controllerName, String actionName);
+        IHtmlGrid<T> AjaxUrl(String actionName, object routeValues);        
         IHtmlGrid<T> AjaxUrl(String actionName);
     }
 }

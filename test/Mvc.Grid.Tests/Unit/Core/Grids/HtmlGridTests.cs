@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using Xunit;
 using Xunit.Extensions;
 
-namespace NonFactors.Mvc.Grid.Tests.Unit
+namespace Iceoz.Mvc.Grid.Tests.Unit
 {
     public class HtmlGridTests
     {

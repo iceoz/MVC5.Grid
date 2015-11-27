@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Xunit;
 
-namespace NonFactors.Mvc.Grid.Tests.Unit
+namespace Iceoz.Mvc.Grid.Tests.Unit
 {
     public class StringEndsWithFilterTests : BaseGridFilterTests
     {

@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Web;
 
-namespace NonFactors.Mvc.Grid
+namespace Iceoz.Mvc.Grid
 {
     public interface IGridColumn : IFilterableColumn, ISortableColumn
     {

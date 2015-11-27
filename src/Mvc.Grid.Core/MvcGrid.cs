@@ -1,4 +1,4 @@
-﻿namespace NonFactors.Mvc.Grid
+﻿namespace Iceoz.Mvc.Grid
 {
     public static class MvcGrid
     {

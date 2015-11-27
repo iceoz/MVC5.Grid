@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace NonFactors.Mvc.Grid.Tests.Unit
+namespace Iceoz.Mvc.Grid.Tests.Unit
 {
     public class GridRowsTests
     {

@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 
-namespace NonFactors.Mvc.Grid
+namespace Iceoz.Mvc.Grid
 {
     public class GridColumn<T, TValue> : BaseGridColumn<T, TValue> where T : class
     {

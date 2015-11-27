@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NonFactors.Mvc.Grid.Tests
+namespace Iceoz.Mvc.Grid.Tests
 {
     public class AllTypesModel
     {
