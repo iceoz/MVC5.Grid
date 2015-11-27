@@ -10,8 +10,13 @@ namespace Iceoz.Mvc.Grid
     {
         String Name { get; set; }
         String EmptyText { get; set; }
+        String ColumnEmptyText { get; set; }
         String CssClasses { get; set; }
         String AjaxUrl { get; set; }
+
+        String LoadingText { get; set; }
+        String LoadingIconUrl { get; set; }
+
         bool IsAjaxUrlSetted { get; }
 
         NameValueCollection Query { get; set; }

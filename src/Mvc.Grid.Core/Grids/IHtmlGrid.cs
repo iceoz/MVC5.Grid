@@ -20,7 +20,8 @@ namespace Iceoz.Mvc.Grid
 
         IHtmlGrid<T> RowCss(Func<T, String> cssClasses);
         IHtmlGrid<T> Css(String cssClasses);
-        IHtmlGrid<T> Empty(String text);
+        IHtmlGrid<T> ColumnEmpty(String text);
+        IHtmlGrid<T> Empty(String text);        
         IHtmlGrid<T> Named(String name);
 
         IHtmlGrid<T> Pageable(Action<IGridPager<T>> builder);
@@ -30,5 +31,8 @@ namespace Iceoz.Mvc.Grid
         IHtmlGrid<T> AjaxUrl(String controllerName, String actionName);
         IHtmlGrid<T> AjaxUrl(String actionName, object routeValues);        
         IHtmlGrid<T> AjaxUrl(String actionName);
+
+        IHtmlGrid<T> LoadingText(String html);
+        IHtmlGrid<T> LoadingIcon(String url);
     }
 }

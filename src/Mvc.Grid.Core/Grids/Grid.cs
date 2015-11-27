@@ -10,6 +10,7 @@ namespace Iceoz.Mvc.Grid
     {
         public String Name { get; set; }
         public String EmptyText { get; set; }
+        public string ColumnEmptyText { get; set; }
         public String CssClasses { get; set; }
 
         private String _AjaxUrl { get; set; }
@@ -26,6 +27,9 @@ namespace Iceoz.Mvc.Grid
             }
         }
         public bool IsAjaxUrlSetted { get; private set; }
+
+        public string LoadingText { get; set; }
+        public string LoadingIconUrl { get; set; }
 
         public IQueryable<T> Source { get; set; }
         public NameValueCollection Query { get; set; }
@@ -50,6 +54,6 @@ namespace Iceoz.Mvc.Grid
 
             Columns = new GridColumns<T>(this);
             Rows = new GridRows<T>(this);
-        }
+        }        
     }
 }

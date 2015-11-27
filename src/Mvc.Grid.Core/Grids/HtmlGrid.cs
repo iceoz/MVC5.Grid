@@ -79,6 +79,12 @@ namespace Iceoz.Mvc.Grid
 
             return this;
         }
+        public IHtmlGrid<T> ColumnEmpty(string text)
+        {
+            Grid.ColumnEmptyText = text;
+
+            return this;
+        }
         public virtual IHtmlGrid<T> Empty(String text)
         {
             Grid.EmptyText = text;
@@ -91,7 +97,6 @@ namespace Iceoz.Mvc.Grid
 
             return this;
         }
-
         public virtual IHtmlGrid<T> Pageable(Action<IGridPager<T>> builder)
         {
             Grid.Pager = Grid.Pager ?? new GridPager<T>(Grid);
@@ -111,8 +116,6 @@ namespace Iceoz.Mvc.Grid
         {
             return Html.Partial(PartialViewName, Grid).ToHtmlString();
         }
-
-
         public IHtmlGrid<T> AjaxUrl(String actionName, String controllerName)
         {
             Grid.AjaxUrl = new UrlHelper(Html.ViewContext.RequestContext).Action(actionName, controllerName);
@@ -125,18 +128,30 @@ namespace Iceoz.Mvc.Grid
 
             return this;
         }
-
-
         public IHtmlGrid<T> AjaxUrl(string controllerName, string actionName, object routeValues)
         {
             Grid.AjaxUrl = new UrlHelper(Html.ViewContext.RequestContext).Action(actionName, controllerName, routeValues);
 
             return this;
         }
-
         public IHtmlGrid<T> AjaxUrl(string actionName, object routeValues)
         {
             Grid.AjaxUrl = new UrlHelper(Html.ViewContext.RequestContext).Action(actionName, routeValues);
+
+            return this;
+        }
+
+
+        public IHtmlGrid<T> LoadingText(string text)
+        {
+            Grid.LoadingText = text;
+
+            return this;
+        }
+
+        public IHtmlGrid<T> LoadingIcon(string url)
+        {
+            Grid.LoadingIconUrl = new UrlHelper(Html.ViewContext.RequestContext).Content(url);
 
             return this;
         }
