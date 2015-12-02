@@ -33,8 +33,9 @@
                         String filterableClass = column.IsFilterable == true ? "filterable" : null;
                         String sortableClass = column.IsSortable == true ? "sortable" : null;
                         String rowSpan = hasGroupTitle && String.IsNullOrEmpty(column.GroupTitle) ? " rowspan=2 " : "";
+                        String styleInline = !String.IsNullOrEmpty(column.StyleInline) ? " style=" + column.StyleInline : "";
 
-                        <th class="mvc-grid-header @filterableClass @sortableClass @column.CssClasses"
+                        <th class="mvc-grid-header @filterableClass @sortableClass @column.CssClasses" @styleInline
                             data-name="@column.Name"
                             data-filterable="@column.IsFilterable"
                             data-filter-name="@column.FilterName"
@@ -68,7 +69,7 @@
                     else if (!String.IsNullOrEmpty(column.GroupTitle) && actualGroup != column.GroupTitle)
                     {
                         actualGroup = column.GroupTitle;
-                        <th colspan="@groupTitles[actualGroup]">@actualGroup</th>
+                        <th colspan="@groupTitles[actualGroup]" style="text-align:center;">@actualGroup</th>
                     }
 
                 }
@@ -83,8 +84,9 @@
 
                             String filterableClass = column.IsFilterable == true ? "filterable" : null;
                             String sortableClass = column.IsSortable == true ? "sortable" : null;
+                            String styleInline = !String.IsNullOrEmpty(column.StyleInline) ? " style=" + column.StyleInline : "";
 
-                            <th class="mvc-grid-header @filterableClass @sortableClass @column.CssClasses"
+                            <th class="mvc-grid-header @filterableClass @sortableClass @column.CssClasses" @styleInline
                                 data-name="@column.Name"
                                 data-filterable="@column.IsFilterable"
                                 data-filter-name="@column.FilterName"
@@ -126,7 +128,9 @@
                     <tr class="mvc-grid-row @row.CssClasses">
                         @foreach (IGridColumn column in Model.Columns)
                         {
-                            <td class="@column.CssClasses">@column.ValueFor(row)</td>
+                            String styleInline = !String.IsNullOrEmpty(column.StyleInline) ? " style=" + column.StyleInline : "";
+
+                            <td class="@column.CssClasses" @styleInline>@column.ValueFor(row)</td>
                         }
                     </tr>
                 }

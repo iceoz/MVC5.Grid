@@ -1,6 +1,6 @@
 ﻿/*!
- * Mvc.Grid 2.2.2
- * https://github.com/NonFactors/MVC5.Grid
+ * Mvc.Grid 1.0
+ * https://github.com/Iceoz/MVC5.Grid
  *
  * Copyright © NonFactors
  *
@@ -19,12 +19,24 @@ var MvcGrid = (function () {
         this.reloadStarted = options.reloadStarted;
         this.sourceUrl = options.sourceUrl || grid.data('source-url') || '';
         this.ajaxUrl = grid.data('ajax-url');
+
+        this.loadingText = options.loadingText || grid.data('loading-text');
+        this.loadingGif = options.loadingGif || grid.data('loading-gif');
+        this.loadingAux = null;
+
+        this.hasLoading = this.loadingText != '' || this.loadingGif != '';
+
         this.filters = $.extend({
             'Text': new MvcGridTextFilter(),
             'Date': new MvcGridDateFilter(),
             'Number': new MvcGridNumberFilter(),
             'Boolean': new MvcGridBooleanFilter()
         }, options.filters);
+
+        if (this.ajaxUrl != '') {
+            options.isLoaded = true;
+            this.sourceUrl = this.ajaxUrl;
+        }
 
         if (this.sourceUrl != '') {
             var splitIndex = this.sourceUrl.indexOf('?');
@@ -36,11 +48,6 @@ var MvcGrid = (function () {
             }
         } else {
             this.gridQuery = window.location.search.replace('?', '');
-        }
-
-        if (this.ajaxUrl != '') {            
-            options.isLoaded = true;
-            this.sourceUrl = this.ajaxUrl;
         }
 
         if (options.reload === true || (this.sourceUrl != '' && !options.isLoaded)) {
@@ -144,33 +151,55 @@ var MvcGrid = (function () {
                     grid.reloadStarted(grid);
                 }
 
-                $.ajax({
-                    url: grid.sourceUrl + '?' + query
-                }).success(function (result) {
-                    if (grid.reloadEnded) {
-                        grid.reloadEnded(grid);
+                if (grid.loadingAux != null)
+                    grid.loadingAux.abort();
+
+                if (grid.hasLoading) {
+                    $('.mvc-grid-loading', grid.element).remove();
+                    var loadingHtml = '<div class="mvc-grid-loading">';
+                    if (grid.loadingGif != '') {
+                        loadingHtml += '<img src="' + grid.loadingGif + '" alt="..." />';
                     }
+                    if (grid.loadingText != '') {
+                        loadingHtml += '<div>' + grid.loadingText + '</div>';
+                    }
+                    loadingHtml += '</div>';
+                    $('table', grid.element).after(loadingHtml);
+                }
 
-                    grid.element.hide();
-                    grid.element.after(result);
+                window.setTimeout(function () {
 
-                    grid.element.next('.mvc-grid').mvcgrid({
-                        reloadStarted: grid.reloadStarted,
-                        reloadFailed: grid.reloadFailed,
-                        reloadEnded: grid.reloadEnded,
-                        rowClicked: grid.rowClicked,
-                        sourceUrl: grid.sourceUrl,
-                        filters: grid.filters,
-                        isLoaded: true,
-                        query: query
+                    grid.loadingAux = $.ajax({
+                        url: grid.sourceUrl + '?' + query
+                    }).success(function (result) {
+                        if (grid.reloadEnded) {
+                            grid.reloadEnded(grid);
+                        }
+
+                        $newGrid = $(result);
+
+                        $(grid.element).replaceWith($newGrid);
+
+                        $newGrid.mvcgrid({
+                            reloadStarted: grid.reloadStarted,
+                            reloadFailed: grid.reloadFailed,
+                            reloadEnded: grid.reloadEnded,
+                            rowClicked: grid.rowClicked,
+                            sourceUrl: grid.sourceUrl,
+                            filters: grid.filters,
+                            isLoaded: true,
+                            query: query,
+                            loadingText: grid.loadingText,
+                            loadingGif: grid.loadingGif
+                        });
+                    })
+                    .error(function (result) {
+                        if (grid.reloadFailed) {
+                            grid.reloadFailed(grid, result);
+                        }
                     });
-                    grid.element.remove();
-                })
-                .error(function (result) {
-                    if (grid.reloadFailed) {
-                        grid.reloadFailed(grid, result);
-                    }
-                });
+
+                }, grid.hasLoading ? 300 : 0);
             } else {
                 window.location.href = '?' + query;
             }

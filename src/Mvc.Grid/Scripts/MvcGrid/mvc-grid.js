@@ -172,9 +172,6 @@ var MvcGrid = (function () {
                     grid.loadingAux = $.ajax({
                         url: grid.sourceUrl + '?' + query
                     }).success(function (result) {
-                        if (grid.reloadEnded) {
-                            grid.reloadEnded(grid);
-                        }
 
                         $newGrid = $(result);
 
@@ -192,6 +189,12 @@ var MvcGrid = (function () {
                             loadingText: grid.loadingText,
                             loadingGif: grid.loadingGif
                         });
+
+                        grid.element = $newGrid;
+
+                        if (grid.reloadEnded) {
+                            grid.reloadEnded(grid);
+                        }
                     })
                     .error(function (result) {
                         if (grid.reloadFailed) {
@@ -885,28 +888,28 @@ $.fn.mvcgrid = function (options) {
 };
 $.fn.mvcgrid.defaultLang = {
     Text: {
-        Contains: 'Contains',
-        Equals: 'Equals',
-        StartsWith: 'Starts with',
-        EndsWith: 'Ends with'
+        Contains: 'Contém',
+        Equals: 'Igual',
+        StartsWith: 'Inicia com',
+        EndsWith: 'Termina com'
     },
     Number: {
-        Equals: 'Equals',
-        LessThan: 'Less than',
-        GreaterThan: 'Greater than',
-        LessThanOrEqual: 'Less than or equal',
-        GreaterThanOrEqual: 'Greater than or equal'
+        Equals: 'Igual',
+        LessThan: 'Menor que',
+        GreaterThan: 'Maior que',
+        LessThanOrEqual: 'Menor ou igual que',
+        GreaterThanOrEqual: 'Maior ou igual que'
     },
     Date: {
-        Equals: 'Equals',
-        LessThan: 'Is before',
-        GreaterThan: 'Is after',
-        LessThanOrEqual: 'Is before or equal',
-        GreaterThanOrEqual: 'Is after or equal'
+        Equals: 'Igual',
+        LessThan: 'Menor que',
+        GreaterThan: 'Maior que',
+        LessThanOrEqual: 'Menor ou igual que',
+        GreaterThanOrEqual: 'Maior ou igual que'
     },
     Boolean: {
-        Yes: 'Yes',
-        No: 'No'
+        Yes: 'Sim',
+        No: 'Não'
     },
     Filter: {
         Apply: '&#10004;',
@@ -914,8 +917,8 @@ $.fn.mvcgrid.defaultLang = {
     },
     Operator: {
         Select: '',
-        And: 'and',
-        Or: 'or'
+        And: 'e',
+        Or: 'ou'
     }
 };
 $.fn.mvcgrid.lang = $.fn.mvcgrid.defaultLang;

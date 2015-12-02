@@ -12,5 +12,8 @@ namespace WebApplicationTeste
         public string SobreNome { get; set; }
         public int Idade { get; set; }
         public string Documento { get; set; }
+        public string CodLeiAto { get; set; }
+        public string NomeLeiAto { get; set; }
+        public string VersLeiAto { get; set; }
     }
 }

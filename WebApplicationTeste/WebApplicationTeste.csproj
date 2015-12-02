@@ -111,9 +111,9 @@
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="packages.config" />
-    <Content Include="Views\Shared\MvcGrid\_AjaxGrid.cshtml" />
-    <Content Include="Views\Shared\MvcGrid\_Grid.cshtml" />
-    <Content Include="Views\Shared\MvcGrid\_Pager.cshtml" />
+    <None Include="Views\Shared\MvcGrid\_AjaxGrid.cshtml" />
+    <None Include="Views\Shared\MvcGrid\_Grid.cshtml" />
+    <None Include="Views\Shared\MvcGrid\_Pager.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

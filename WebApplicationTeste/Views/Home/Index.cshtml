@@ -9,12 +9,14 @@
     .Build(columns =>
     {
         columns.Add(mdl => mdl.Nome).Titled("Nome");
-        columns.Add(mdl => mdl.SobreNome).Titled("Sobrenome");
-        columns.Add(mdl => mdl.Idade).Titled("Idade");
-        columns.Add(mdl => mdl.Documento).Titled("Documento");
+        columns.Add(mdl => mdl.SobreNome).Titled("Sobrenome").GroupTitled("oioi");
+        columns.Add(mdl => mdl.Idade).Titled("Idade").GroupTitled("oioi");
+        columns.Add(mdl => mdl.Documento).Titled("Documento").Tooltiped("Tralala");
+        columns.Add(mdl => mdl.CodLeiAto).Titled("Codigo").GroupTitled("Lei Ato");
+        columns.Add(mdl => mdl.NomeLeiAto).Titled("Nome").GroupTitled("Lei Ato");
+        columns.Add(mdl => mdl.VersLeiAto).Titled("Versão").GroupTitled("Lei Ato");
     })
-    .Filterable(false)
-    .Sortable(false)
+    .Filterable(false).ColumnEmpty("tranquera").Sortable(true).LoadingText("asdhasjlhdjkashdjkash carregando porra")
     .AjaxUrl("xunxo");
 }
 

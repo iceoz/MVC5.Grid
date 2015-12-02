@@ -12,40 +12,37 @@ namespace WebApplicationTeste.Controllers
         // GET: /Home/
         public ActionResult Index()
         {
-            IList<Pessoa> pessoas = new List<Pessoa>();
-            for (int i = 0; i < 200; i++)
-            {
-                pessoas.Add(new Pessoa()
-                {
-                    ID = i,
-                    Documento = i + "2" + (i % 3) + "." + i + "5" + (i % 5) + "." + i + "2" + (i % 3),
-                    Idade = (i + 15),
-                    Nome = "xurupita ",
-                    SobreNome = "tralala"
-                });
-            }
-
-            return View(pessoas);
+            return View(getPessoas());
         }
 
         public ActionResult xunxo()
         {
+            ViewBag.onlyTable = true;
+
+            return View("Index", getPessoas());
+        }
+
+        public IList<Pessoa> getPessoas()
+        {
+            System.Threading.Thread.Sleep(1000);
+
             IList<Pessoa> pessoas = new List<Pessoa>();
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 10; i++)
             {
                 pessoas.Add(new Pessoa()
                 {
                     ID = i,
                     Documento = i + "2" + (i % 3) + "." + i + "5" + (i % 5) + "." + i + "2" + (i % 3),
                     Idade = (i + 15),
-                    Nome = "xurupita ",
-                    SobreNome = "tralala"
+                    Nome = i % 3 == 0 ? "" : "xurupita ",
+                    SobreNome = "tralala",
+                    CodLeiAto = "cd. " + i + 36,
+                    NomeLeiAto = "Lei ato " + i,
+                    VersLeiAto = "v. " + i * 1.8764
                 });
             }
 
-            ViewBag.onlyTable = true;
-
-            return View("Index", pessoas);
+            return pessoas;
         }
-	}
+    }
 }
