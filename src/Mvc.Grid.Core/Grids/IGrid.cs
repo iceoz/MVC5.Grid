@@ -15,9 +15,7 @@ namespace Iceoz.Mvc.Grid
         String AjaxUrl { get; set; }
 
         String LoadingText { get; set; }
-        String LoadingIconUrl { get; set; }
-
-        bool IsAjaxUrlSetted { get; }
+        String LoadingGif { get; set; }
 
         NameValueCollection Query { get; set; }
         HttpContextBase HttpContext { get; set; }

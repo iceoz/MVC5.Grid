@@ -141,7 +141,6 @@ namespace Iceoz.Mvc.Grid
             return this;
         }
 
-
         public IHtmlGrid<T> LoadingText(string text)
         {
             Grid.LoadingText = text;
@@ -149,9 +148,9 @@ namespace Iceoz.Mvc.Grid
             return this;
         }
 
-        public IHtmlGrid<T> LoadingIcon(string url)
+        public IHtmlGrid<T> LoadingGif(string url)
         {
-            Grid.LoadingIconUrl = new UrlHelper(Html.ViewContext.RequestContext).Content(url);
+            Grid.LoadingGif = new UrlHelper(Html.ViewContext.RequestContext).Content(url);
 
             return this;
         }

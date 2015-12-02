@@ -12,6 +12,9 @@ namespace Iceoz.Mvc.Grid
         public String Format { get; set; }
         public String CssClasses { get; set; }
         public Boolean IsEncoded { get; set; }
+        public string GroupTitle { get; set; }
+        public string Tooltip { get; set; }
+        public string StyleInline { get; set; }
 
         public Boolean? IsSortable { get; set; }
         public GridSortOrder? FirstSortOrder { get; set; }
@@ -109,5 +112,31 @@ namespace Iceoz.Mvc.Grid
 
         public abstract IQueryable<T> Process(IQueryable<T> items);
         public abstract IHtmlString ValueFor(IGridRow row);
+
+
+        public IGridColumn<T> GroupTitled(string groupTitle)
+        {
+            GroupTitle = groupTitle;
+
+            return this;
+        }
+
+
+        public IGridColumn<T> Tooltiped(string tooltip)
+        {
+            Tooltip = tooltip;
+
+            return this;
+        }
+
+        public IGridColumn<T> InlineStyled(string styleInline)
+        {
+            StyleInline = styleInline;
+
+            return this;
+        }
+
+
+        
     }
 }

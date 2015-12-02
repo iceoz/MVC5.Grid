@@ -33,6 +33,6 @@ namespace Iceoz.Mvc.Grid
         IHtmlGrid<T> AjaxUrl(String actionName);
 
         IHtmlGrid<T> LoadingText(String html);
-        IHtmlGrid<T> LoadingIcon(String url);
+        IHtmlGrid<T> LoadingGif(String url);
     }
 }

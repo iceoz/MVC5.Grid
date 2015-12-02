@@ -11,6 +11,9 @@ namespace Iceoz.Mvc.Grid
         String Format { get; set; }
         String CssClasses { get; set; }
         Boolean IsEncoded { get; set; }
+        String GroupTitle { get; set; }
+        String Tooltip { get; set; }
+        String StyleInline { get; set; }
 
         IHtmlString ValueFor(IGridRow row);
     }
@@ -35,5 +38,8 @@ namespace Iceoz.Mvc.Grid
         IGridColumn<T> Css(String cssClasses);
         IGridColumn<T> Titled(String title);
         IGridColumn<T> Named(String name);
+        IGridColumn<T> GroupTitled(String groupTitle);
+        IGridColumn<T> Tooltiped(String tooltip);
+        IGridColumn<T> InlineStyled(String styleInline);
     }
 }

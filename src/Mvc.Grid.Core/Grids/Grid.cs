@@ -12,24 +12,10 @@ namespace Iceoz.Mvc.Grid
         public String EmptyText { get; set; }
         public string ColumnEmptyText { get; set; }
         public String CssClasses { get; set; }
-
-        private String _AjaxUrl { get; set; }
-        public String AjaxUrl
-        {
-            get
-            {
-                return _AjaxUrl;
-            }
-            set
-            {
-                _AjaxUrl = value;
-                IsAjaxUrlSetted = !(String.IsNullOrWhiteSpace(value) || String.IsNullOrEmpty(value));
-            }
-        }
-        public bool IsAjaxUrlSetted { get; private set; }
+        public String AjaxUrl { get; set; }
 
         public string LoadingText { get; set; }
-        public string LoadingIconUrl { get; set; }
+        public string LoadingGif { get; set; }
 
         public IQueryable<T> Source { get; set; }
         public NameValueCollection Query { get; set; }

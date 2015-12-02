@@ -2,45 +2,121 @@
 
 @model IGrid
 
-<div class="mvc-grid" data-name="@Model.Name" @(Model.IsAjaxUrlSetted ? "data-ajax-url=" + Model.AjaxUrl : "")>
-    <table class="table mvc-grid-table @Model.CssClasses">
+@{
+    bool hasGroupTitle = false;
+    string actualGroup = "";
+    Dictionary<string, int> groupTitles = new Dictionary<string, int>();
+    foreach (var column in Model.Columns)
+    {
+        if (!String.IsNullOrEmpty(column.GroupTitle))
+        {
+            hasGroupTitle = true;
+            if (!groupTitles.ContainsKey(column.GroupTitle))
+            {
+                groupTitles.Add(column.GroupTitle, 0);
+            }
+
+            groupTitles[column.GroupTitle] += 1;
+        }
+    }
+}
+
+<div class="mvc-grid" data-name="@Model.Name" data-ajax-url="@Model.AjaxUrl" data-loading-text="@Model.LoadingText" data-loading-gif="@Model.LoadingGif">
+    <table class="table mvc-grid-table @Model.CssClasses" border="1">
         <thead>
             <tr>
                 @foreach (IGridColumn column in Model.Columns)
                 {
-                    String filterableClass = column.IsFilterable == true ? "filterable" : null;
-                    String sortableClass = column.IsSortable == true ? "sortable" : null;
+                    if (!hasGroupTitle || (hasGroupTitle && String.IsNullOrEmpty(column.GroupTitle)))
+                    {
 
-                    <th class="mvc-grid-header @filterableClass @sortableClass @column.CssClasses"
-                        data-name="@column.Name"
-                        data-filterable="@column.IsFilterable"
-                        data-filter-name="@column.FilterName"
-                        data-filter-multi="@column.IsMultiFilterable"
-                        data-filter-first-type="@(column.Filter != null && column.Filter.First != null
+                        String filterableClass = column.IsFilterable == true ? "filterable" : null;
+                        String sortableClass = column.IsSortable == true ? "sortable" : null;
+                        String rowSpan = hasGroupTitle && String.IsNullOrEmpty(column.GroupTitle) ? " rowspan=2 " : "";
+
+                        <th class="mvc-grid-header @filterableClass @sortableClass @column.CssClasses"
+                            data-name="@column.Name"
+                            data-filterable="@column.IsFilterable"
+                            data-filter-name="@column.FilterName"
+                            data-filter-multi="@column.IsMultiFilterable"
+                            data-filter-first-type="@(column.Filter != null && column.Filter.First != null
                             ? column.Filter.First.Type : "")"
-                        data-filter-first-val="@(column.Filter != null && column.Filter.First != null
+                            data-filter-first-val="@(column.Filter != null && column.Filter.First != null
                             ? column.Filter.First.Value : "")"
-                        data-filter-operator="@(column.Filter != null ? column.Filter.Operator : "")"
-                        data-filter-second-type="@(column.Filter != null && column.Filter.Second != null
+                            data-filter-operator="@(column.Filter != null ? column.Filter.Operator : "")"
+                            data-filter-second-type="@(column.Filter != null && column.Filter.Second != null
                             ? column.Filter.Second.Type : "")"
-                        data-filter-second-val="@(column.Filter != null && column.Filter.Second != null
+                            data-filter-second-val="@(column.Filter != null && column.Filter.Second != null
                             ? column.Filter.Second.Value : "")"
-                        data-sortable="@column.IsSortable"
-                        data-sort-order="@column.SortOrder"
-                        data-sort-first="@column.FirstSortOrder">
-                        <span class="mvc-grid-header-title">@column.Title</span>
-                        @if (column.IsSortable == true)
-                        {
-                            <span class="mvc-grid-sort @column.SortOrder.ToString().ToLower()"></span>
-                        }
-                        @if (column.IsFilterable == true)
-                        {
-                            String filterApplied = column.Filter != null && (column.Filter.First != null || column.Filter.Second != null) ? "applied" : "";
-                            <span class="mvc-grid-filter @filterApplied"></span>
-                        }
-                    </th>
+                            data-sortable="@column.IsSortable"
+                            data-sort-order="@column.SortOrder"
+                            data-sort-first="@column.FirstSortOrder"
+                            @(!String.IsNullOrEmpty(column.Tooltip) ? " title=" + column.Tooltip : "")
+                            @rowSpan>
+                            <span class="mvc-grid-header-title">@column.Title</span>
+                            @if (column.IsSortable == true)
+                            {
+                                <span class="mvc-grid-sort @column.SortOrder.ToString().ToLower()"></span>
+                            }
+                            @if (column.IsFilterable == true)
+                            {
+                                String filterApplied = column.Filter != null && (column.Filter.First != null || column.Filter.Second != null) ? "applied" : "";
+                                <span class="mvc-grid-filter @filterApplied"></span>
+                            }
+                        </th>
+                    }
+                    else if (!String.IsNullOrEmpty(column.GroupTitle) && actualGroup != column.GroupTitle)
+                    {
+                        actualGroup = column.GroupTitle;
+                        <th colspan="@groupTitles[actualGroup]">@actualGroup</th>
+                    }
+
                 }
             </tr>
+            @if (hasGroupTitle)
+            {
+                <tr>
+                    @foreach (IGridColumn column in Model.Columns)
+                    {
+                        if (!String.IsNullOrEmpty(column.GroupTitle))
+                        {
+
+                            String filterableClass = column.IsFilterable == true ? "filterable" : null;
+                            String sortableClass = column.IsSortable == true ? "sortable" : null;
+
+                            <th class="mvc-grid-header @filterableClass @sortableClass @column.CssClasses"
+                                data-name="@column.Name"
+                                data-filterable="@column.IsFilterable"
+                                data-filter-name="@column.FilterName"
+                                data-filter-multi="@column.IsMultiFilterable"
+                                data-filter-first-type="@(column.Filter != null && column.Filter.First != null
+                            ? column.Filter.First.Type : "")"
+                                data-filter-first-val="@(column.Filter != null && column.Filter.First != null
+                            ? column.Filter.First.Value : "")"
+                                data-filter-operator="@(column.Filter != null ? column.Filter.Operator : "")"
+                                data-filter-second-type="@(column.Filter != null && column.Filter.Second != null
+                            ? column.Filter.Second.Type : "")"
+                                data-filter-second-val="@(column.Filter != null && column.Filter.Second != null
+                            ? column.Filter.Second.Value : "")"
+                                data-sortable="@column.IsSortable"
+                                data-sort-order="@column.SortOrder"
+                                data-sort-first="@column.FirstSortOrder"
+                                @(!String.IsNullOrEmpty(column.Tooltip) ? " title=" + column.Tooltip : "")>
+                                <span class="mvc-grid-header-title">@column.Title</span>
+                                @if (column.IsSortable == true)
+                                {
+                                    <span class="mvc-grid-sort @column.SortOrder.ToString().ToLower()"></span>
+                                }
+                                @if (column.IsFilterable == true)
+                                {
+                                    String filterApplied = column.Filter != null && (column.Filter.First != null || column.Filter.Second != null) ? "applied" : "";
+                                    <span class="mvc-grid-filter @filterApplied"></span>
+                                }
+                            </th>
+                        }
+                    }
+                </tr>
+            }
         </thead>
         <tbody>
             @if (Model.Rows.Count() > 0)

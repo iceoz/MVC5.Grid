@@ -124,11 +124,13 @@ namespace Iceoz.Mvc.Grid
             }
             catch (NullReferenceException)
             {
-                return "";
+                return Grid.ColumnEmptyText;
             }
 
             if (value == null)
-                return "";
+                return Grid.ColumnEmptyText;
+            else if (!String.IsNullOrEmpty(Grid.ColumnEmptyText) && String.IsNullOrEmpty(value.ToString()))
+                return Grid.ColumnEmptyText;
 
             if (Format == null)
                 return value.ToString();
