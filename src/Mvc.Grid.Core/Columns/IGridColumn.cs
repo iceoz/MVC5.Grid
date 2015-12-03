@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Web;
 
-namespace Iceoz.Mvc.Grid
+namespace TCEPR.Mvc.Grid
 {
     public interface IGridColumn : IFilterableColumn, ISortableColumn
     {
@@ -14,6 +14,7 @@ namespace Iceoz.Mvc.Grid
         String GroupTitle { get; set; }
         String Tooltip { get; set; }
         String StyleInline { get; set; }
+        Boolean IsVisible { get; set; }        
 
         IHtmlString ValueFor(IGridRow row);
     }
@@ -41,5 +42,6 @@ namespace Iceoz.Mvc.Grid
         IGridColumn<T> GroupTitled(String groupTitle);
         IGridColumn<T> Tooltiped(String tooltip);
         IGridColumn<T> InlineStyled(String styleInline);
+        IGridColumn<T> Visible(bool isVisible);
     }
 }

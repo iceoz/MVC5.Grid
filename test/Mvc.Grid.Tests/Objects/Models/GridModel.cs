@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Iceoz.Mvc.Grid.Tests
+namespace TCEPR.Mvc.Grid.Tests
 {
     public class GridModel
     {

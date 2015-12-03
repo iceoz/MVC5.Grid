@@ -11,7 +11,7 @@ using System.Web.Mvc;
 using Xunit;
 using Xunit.Extensions;
 
-namespace Iceoz.Mvc.Grid.Tests.Unit
+namespace TCEPR.Mvc.Grid.Tests.Unit
 {
     public class GridColumnTests : IDisposable
     {

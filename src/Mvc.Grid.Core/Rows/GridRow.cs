@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iceoz.Mvc.Grid
+namespace TCEPR.Mvc.Grid
 {
     public class GridRow : IGridRow
     {

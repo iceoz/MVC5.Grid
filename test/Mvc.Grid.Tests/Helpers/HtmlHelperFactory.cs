@@ -4,7 +4,7 @@ using System.IO;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Iceoz.Mvc.Grid.Tests
+namespace TCEPR.Mvc.Grid.Tests
 {
     public class HtmlHelperFactory
     {

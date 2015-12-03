@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Iceoz.Mvc.Grid.Tests
+namespace TCEPR.Mvc.Grid.Tests
 {
     public class HttpContextFactory
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Xunit;
 
-namespace Iceoz.Mvc.Grid.Tests.Unit
+namespace TCEPR.Mvc.Grid.Tests.Unit
 {
     public class DoubleFilterTests
     {

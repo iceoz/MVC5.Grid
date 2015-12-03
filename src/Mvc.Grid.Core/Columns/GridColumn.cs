@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Iceoz.Mvc.Grid
+namespace TCEPR.Mvc.Grid
 {
     public class GridColumn<T, TValue> : BaseGridColumn<T, TValue> where T : class
     {
@@ -64,6 +64,7 @@ namespace Iceoz.Mvc.Grid
         {
             Grid = grid;
             IsEncoded = true;
+            IsVisible = true;
             Expression = expression;
             Title = GetTitle(expression);
             FilterName = GetFilterName();

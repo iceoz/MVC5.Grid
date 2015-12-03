@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Iceoz.Mvc.Grid
+namespace TCEPR.Mvc.Grid
 {
     public interface IGridProcessor<T>
     {

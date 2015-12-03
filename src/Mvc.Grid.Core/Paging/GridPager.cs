@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Iceoz.Mvc.Grid
+namespace TCEPR.Mvc.Grid
 {
     public class GridPager<T> : IGridPager<T>
     {

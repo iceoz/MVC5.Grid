@@ -1,4 +1,4 @@
-﻿namespace Iceoz.Mvc.Grid
+﻿namespace TCEPR.Mvc.Grid
 {
     public enum GridSortOrder
     {

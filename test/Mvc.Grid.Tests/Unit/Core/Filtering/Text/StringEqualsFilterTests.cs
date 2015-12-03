@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using Xunit;
 using Xunit.Extensions;
 
-namespace Iceoz.Mvc.Grid.Tests.Unit
+namespace TCEPR.Mvc.Grid.Tests.Unit
 {
     public class StringEqualsFilterTests : BaseGridFilterTests
     {

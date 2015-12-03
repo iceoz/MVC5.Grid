@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
 
-namespace Iceoz.Mvc.Grid
+namespace TCEPR.Mvc.Grid
 {
     public class HtmlGrid<T> : IHtmlGrid<T>
     {

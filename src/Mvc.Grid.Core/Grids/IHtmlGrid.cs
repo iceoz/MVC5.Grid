@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web;
 
-namespace Iceoz.Mvc.Grid
+namespace TCEPR.Mvc.Grid
 {
     public interface IHtmlGrid<T> : IHtmlString
     {

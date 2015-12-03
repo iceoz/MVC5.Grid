@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 
-namespace Iceoz.Mvc.Grid
+namespace TCEPR.Mvc.Grid
 {
     public abstract class BaseGridColumn<T, TValue> : IGridColumn<T>
     {
@@ -15,6 +15,7 @@ namespace Iceoz.Mvc.Grid
         public string GroupTitle { get; set; }
         public string Tooltip { get; set; }
         public string StyleInline { get; set; }
+        public Boolean IsVisible { get; set; }
 
         public Boolean? IsSortable { get; set; }
         public GridSortOrder? FirstSortOrder { get; set; }
@@ -136,7 +137,12 @@ namespace Iceoz.Mvc.Grid
             return this;
         }
 
+        public IGridColumn<T> Visible(bool isVisible)
+        {
+            IsVisible = isVisible;
 
+            return this;
+        }
         
     }
 }
