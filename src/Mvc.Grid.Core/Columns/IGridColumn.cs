@@ -13,6 +13,7 @@ namespace TCEPR.Mvc.Grid
         Boolean IsEncoded { get; set; }
         String GroupTitle { get; set; }
         String Tooltip { get; set; }
+        String GroupTooltip { get; set; }
         String StyleInline { get; set; }
         Boolean IsVisible { get; set; }        
 
@@ -41,6 +42,7 @@ namespace TCEPR.Mvc.Grid
         IGridColumn<T> Named(String name);
         IGridColumn<T> GroupTitled(String groupTitle);
         IGridColumn<T> Tooltiped(String tooltip);
+        IGridColumn<T> GroupTooltiped(String tooltip);
         IGridColumn<T> InlineStyled(String styleInline);
         IGridColumn<T> Visible(bool isVisible);
     }

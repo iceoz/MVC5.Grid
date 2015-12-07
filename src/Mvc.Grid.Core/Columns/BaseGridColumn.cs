@@ -14,6 +14,7 @@ namespace TCEPR.Mvc.Grid
         public Boolean IsEncoded { get; set; }
         public string GroupTitle { get; set; }
         public string Tooltip { get; set; }
+        public string GroupTooltip { get; set; }
         public string StyleInline { get; set; }
         public Boolean IsVisible { get; set; }
 
@@ -143,6 +144,12 @@ namespace TCEPR.Mvc.Grid
 
             return this;
         }
-        
+
+        public IGridColumn<T> GroupTooltiped(string tooltip)
+        {
+            GroupTooltip = tooltip;
+
+            return this;
+        }        
     }
 }

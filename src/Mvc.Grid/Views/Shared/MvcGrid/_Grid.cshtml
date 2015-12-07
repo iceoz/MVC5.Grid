@@ -34,8 +34,9 @@
 
                             String filterableClass = column.IsFilterable == true ? "filterable" : null;
                             String sortableClass = column.IsSortable == true ? "sortable" : null;
+                            String doubleHeaderClass = (hasGroupTitle && String.IsNullOrEmpty(column.GroupTitle)) ? "mvc-grid-double-vertical-header" : null;
 
-                            <th class="mvc-grid-header @filterableClass @sortableClass @column.CssClasses"
+                            <th class="mvc-grid-header @filterableClass @sortableClass @column.CssClasses @doubleHeaderClass"
                                 data-name="@column.Name"
                                 data-filterable="@column.IsFilterable"
                                 data-filter-name="@column.FilterName"
@@ -53,7 +54,7 @@
                                 data-sort-order="@column.SortOrder"
                                 data-sort-first="@column.FirstSortOrder"
                                 title="@column.Tooltip"
-                                rowspan="@(hasGroupTitle && String.IsNullOrEmpty(column.GroupTitle) ? 2 : 0)"
+                                rowspan="@(hasGroupTitle && String.IsNullOrEmpty(column.GroupTitle) ? 2 : 1)"
                                 style="@column.StyleInline">
                                 <span class="mvc-grid-header-title">@column.Title</span>
                                 @if (column.IsSortable == true)
@@ -69,8 +70,12 @@
                         }
                         else if (!String.IsNullOrEmpty(column.GroupTitle) && actualGroup != column.GroupTitle)
                         {
+                            String doubleHeaderClass = (hasGroupTitle && String.IsNullOrEmpty(column.GroupTitle)) ? "mvc-grid-double-horizontal-header" : null;
+
                             actualGroup = column.GroupTitle;
-                            <th colspan="@groupTitles[actualGroup]" style="text-align:center;">@actualGroup</th>
+                            <th colspan="@groupTitles[actualGroup]" style="text-align:center;" class="mvc-grid-header @doubleHeaderClass" title="@column.GroupTooltip">
+                                <span class="mvc-grid-header-title">@actualGroup</span>
+                            </th>
                         }
                     }
                 }
