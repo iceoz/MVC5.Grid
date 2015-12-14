@@ -19,10 +19,197 @@
             groupTitles[column.GroupTitle] += 1;
         }
     }
+
+    IList<IGridRow> lstRow = Model.Rows.ToList();
+    IList<IGridColumn> lstCol = Model.Columns.ToList();
+
+    IList<GridRowMinified> tblRows = new List<GridRowMinified>();
+    int rowspan = 0;
+    int maiorDataIndex = 1;
+    bool seletorCor = false;
+
+
+    if (lstRow.Count > 0)
+    {
+        //Cria um dicionario de "indice_da_colunaXminificação" e aplica as devidas regras
+        Dictionary<int, bool> colXmin = new Dictionary<int, bool>();
+        for (int j = lstCol.Count - 1; j > -1; j--)
+        {
+            IGridColumn col = lstCol[j];
+            //Se uma coluna é minificada, todas as anteriores obrigatoriamente também são
+            if (col.IsMinified)
+            {
+                for (int jj = j; jj > -1; jj--)
+                {
+                    colXmin.Add(jj, true);
+                }
+                break;
+            }
+            else
+            {
+                colXmin.Add(j, false);
+            }
+        }
+
+        //Monta uma matriz que será utilizada para montar o html
+        for (int i = 0; i < lstRow.Count; i++)
+        {
+            IGridRow row = lstRow[i];
+            List<GridColumnMinified> tblCols = new List<GridColumnMinified>();
+
+            for (int j = 0; j < lstCol.Count; j++)
+            {
+                IGridColumn col = lstCol[j];
+
+                string strVal = HttpUtility.HtmlDecode(col.ValueFor(row).ToString());
+                tblCols.Add(
+                    new GridColumnMinified()
+                    {
+                        CssClasses = col.CssClassesFor(row),
+                        StyleInline = col.StyleInlineFor(row),
+                        Rowspan = 1,
+                        Value = strVal,
+                        Visible = true,
+                        IsMinified = colXmin[j]
+                    }
+                );
+            }
+            tblRows.Add(
+                new GridRowMinified()
+                {
+                    CssClasses = row.CssClasses,
+                    Columns = tblCols,
+                    DataIndex = 0,
+                    Name = string.Empty
+                }
+            );
+        }
+
+        if (true)
+        {
+            Dictionary<int, string> valoresAtuais = new Dictionary<int, string>();
+            foreach (GridColumnMinified col in tblRows[0].Columns)
+            {
+                valoresAtuais.Add(tblRows[0].Columns.IndexOf(col), col.Value);
+            }
+
+            int colunaDefineLinha = 0;
+            bool trocouLinha = false;
+
+            //Adiciona as tags de minificação começando pela segunda linha
+            for (int i = 1; i < tblRows.Count; i++)
+            {
+                GridRowMinified row = tblRows[i];
+                trocouLinha = false;
+
+                for (int j = 0; j < row.Columns.Count; j++)
+                {
+                    GridColumnMinified col = row.Columns[j];
+                    if (col.IsMinified)
+                    {
+                        if (trocouLinha)
+                        {
+                            break;
+                        }
+
+                        string valAtual = valoresAtuais[j] ?? string.Empty;
+
+                        if (col.Value == valAtual && !trocouLinha)
+                        {
+                            col.Value = Model.TagMinified;
+                        }
+                        else
+                        {
+                            if (j == colunaDefineLinha)
+                            {
+                                trocouLinha = true;
+                                foreach (GridColumnMinified colAtualizacao in tblRows[i].Columns)
+                                {
+                                    valoresAtuais[tblRows[i].Columns.IndexOf(colAtualizacao)] = colAtualizacao.Value;
+                                }
+                            }
+                            else
+                            {
+                                valoresAtuais[j] = col.Value;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        //Filtra a matriz
+        for (int i = 0; i < tblRows.Count; i++)
+        {
+            GridRowMinified row = tblRows[i];
+
+            if (row.DataIndex == 0)
+            {
+                row.DataIndex = i + 1;
+                row.Name = "linha_" + (i + 1);
+            }
+
+            for (int j = 0; j < row.Columns.Count; j++)
+            {
+                GridColumnMinified col = row.Columns[j];
+
+                if (col.Visible)
+                {
+                    //Valida as linhas posteriores e faz a contagem para o rowspan
+                    rowspan = 1;
+                    for (int iV = i + 1; iV < tblRows.Count; iV++)
+                    {
+                        GridRowMinified rowVal = tblRows[iV];
+                        GridColumnMinified colVal = rowVal.Columns[j];
+                        if (colVal.Value == Model.TagMinified)
+                        {
+                            rowspan++;
+                            colVal.Visible = false;
+
+                            if (rowVal.DataIndex == 0)
+                            {
+                                rowVal.DataIndex = (i + 1);
+                                rowVal.Name = "linha_" + (i + 1);
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                    }
+                    //Seta o rowspan na coluna
+                    if (rowspan > 1)
+                    {
+                        col.Rowspan = rowspan;
+                        col.StyleInline += " vertical-align: middle;";
+                    }
+
+                }
+            }
+
+            if (maiorDataIndex != row.DataIndex)
+            {
+                seletorCor = !seletorCor;
+                maiorDataIndex = row.DataIndex;
+            }
+
+            if (seletorCor)
+            {
+                row.DataColor = 1;
+            }
+            else
+            {
+                row.DataColor = 0;
+            }
+
+        }
+
+    }
 }
 
 <div class="mvc-grid" data-name="@Model.Name" data-ajax-url="@Model.AjaxUrl" data-loading-text="@Model.LoadingText" data-loading-gif="@Model.LoadingGif">
-    <table class="table mvc-grid-table @Model.CssClasses" border="1">
+    <table class="table mvc-grid-table mvc-grid-table-minified @Model.CssClasses" border="1">
         <thead>
             <tr>
                 @foreach (IGridColumn column in Model.Columns)
@@ -129,31 +316,48 @@
                 </tr>
             }
         </thead>
-        <tbody>
-            @if (Model.Rows.Count() > 0)
+        @if (tblRows.Count > 0)
+        {
+            var dcRows = new Dictionary<int, List<GridRowMinified>>();
+
+            foreach (var row in tblRows)
             {
-                foreach (IGridRow row in Model.Rows)
+                if (!dcRows.ContainsKey(row.DataIndex))
                 {
-                    <tr class="mvc-grid-row @row.CssClasses">
-                        @foreach (IGridColumn column in Model.Columns)
-                        {
-                            if (column.IsVisible)
-                            {
-                                <td class="@column.CssClassesFor(row)" style="@column.StyleInlineFor(row)">@column.ValueFor(row)</td>
-                            }
-                        }
-                    </tr>
+                    dcRows.Add(row.DataIndex, new List<GridRowMinified>());
                 }
+
+                dcRows[row.DataIndex].Add(row);
             }
-            else
+
+            foreach (var groupRows in dcRows)
             {
+                <tbody>
+                    @foreach (GridRowMinified row in groupRows.Value)
+                    {
+                        <tr class="mvc-grid-row @row.CssClasses" data-index="@row.DataIndex" name="@row.Name" data-color="@row.DataColor">
+                            @foreach (GridColumnMinified col in row.Columns)
+                            {
+                                if (col.Visible)
+                                {
+                                    <td class="@col.CssClasses" style="@col.StyleInline" rowspan="@col.Rowspan">@col.Value</td>
+                                }
+                            }
+                        </tr>
+                    }
+                </tbody>
+            }
+        }
+        else
+        {
+            <tbody>
                 <tr>
                     <td class="mvc-grid-table-empty" colspan="@Model.Columns.Count(x => x.IsVisible)">
                         @Model.EmptyText
                     </td>
                 </tr>
-            }
-        </tbody>
+            </tbody>
+        }
     </table>
     @if (Model.Pager != null)
     {

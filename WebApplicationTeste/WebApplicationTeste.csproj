@@ -113,6 +113,7 @@
     <Content Include="packages.config" />
     <None Include="Views\Shared\MvcGrid\_AjaxGrid.cshtml" />
     <None Include="Views\Shared\MvcGrid\_Grid.cshtml" />
+    <None Include="Views\Shared\MvcGrid\_GridMinified.cshtml" />
     <None Include="Views\Shared\MvcGrid\_Pager.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web;
+using System.Web.Routing;
 
 namespace TCEPR.Mvc.Grid
 {
@@ -7,6 +8,7 @@ namespace TCEPR.Mvc.Grid
     {
         IGrid<T> Grid { get; }
         String PartialViewName { get; set; }
+        String PartialViewNameMinified { get; set; }
         
         IHtmlGrid<T> Build(Action<IGridColumns<T>> builder);
         IHtmlGrid<T> ProcessWith(IGridProcessor<T> processor);
@@ -26,10 +28,14 @@ namespace TCEPR.Mvc.Grid
 
         IHtmlGrid<T> Pageable(Action<IGridPager<T>> builder);
         IHtmlGrid<T> Pageable();
+        IHtmlGrid<T> SkipGridProcess(Boolean skipProcess);
+        IHtmlGrid<T> SkipGridProcess(Boolean skipProcess, Int32 totalPages);
 
+        IHtmlGrid<T> AjaxUrl(String controllerName, String actionName, RouteValueDictionary routeValues);
         IHtmlGrid<T> AjaxUrl(String controllerName, String actionName, object routeValues);
         IHtmlGrid<T> AjaxUrl(String controllerName, String actionName);
-        IHtmlGrid<T> AjaxUrl(String actionName, object routeValues);        
+        IHtmlGrid<T> AjaxUrl(String actionName, RouteValueDictionary routeValues);
+        IHtmlGrid<T> AjaxUrl(String actionName, object routeValues); 
         IHtmlGrid<T> AjaxUrl(String actionName);
 
         IHtmlGrid<T> LoadingText(String html);

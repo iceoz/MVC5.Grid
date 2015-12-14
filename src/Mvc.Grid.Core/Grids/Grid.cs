@@ -16,6 +16,9 @@ namespace TCEPR.Mvc.Grid
 
         public string LoadingText { get; set; }
         public string LoadingGif { get; set; }
+        public bool SkipProcess { get; set; }
+        public bool IsMinified { get; set; }
+        public string TagMinified { get; private set; }
 
         public IQueryable<T> Source { get; set; }
         public NameValueCollection Query { get; set; }
@@ -38,8 +41,10 @@ namespace TCEPR.Mvc.Grid
 
             Name = "Grid";
 
+            TagMinified = "<<compress>>";
+
             Columns = new GridColumns<T>(this);
             Rows = new GridRows<T>(this);
-        }        
+        }
     }
 }

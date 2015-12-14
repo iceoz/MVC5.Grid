@@ -13,6 +13,9 @@ namespace TCEPR.Mvc.Grid
         String ColumnEmptyText { get; set; }
         String CssClasses { get; set; }
         String AjaxUrl { get; set; }
+        Boolean SkipProcess { get; set; }
+        Boolean IsMinified { get; set; }
+        String TagMinified { get; }
 
         String LoadingText { get; set; }
         String LoadingGif { get; set; }

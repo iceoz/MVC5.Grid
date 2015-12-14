@@ -14,7 +14,20 @@
         columns.Add(mdl => mdl.Documento).Titled("Documento").Tooltiped("Tralala");
         columns.Add(mdl => mdl.CodLeiAto).Titled("Codigo").GroupTitled("Lei Ato");
         columns.Add(mdl => mdl.NomeLeiAto).Titled("Nome").GroupTitled("Lei Ato");
-        columns.Add(mdl => mdl.VersLeiAto).Titled("Versão").GroupTitled("Lei Ato");
+        columns.Add(mdl => mdl.VersLeiAto).Titled("Versão").GroupTitled("Lei Ato")
+            .Css(mdl =>
+            {
+                if (mdl.Idade < 25)
+                    return "menor25";
+                else
+                    return "maior25";
+            }).InlineStyled(mdl =>
+            {
+                if (mdl.Idade < 25)
+                    return "menor25";
+                else
+                    return "maior25";
+            });
     })
     .Filterable(false).ColumnEmpty("tranquera").Sortable(true).LoadingText("asdhasjlhdjkashdjkash carregando porra")
     .AjaxUrl("xunxo");

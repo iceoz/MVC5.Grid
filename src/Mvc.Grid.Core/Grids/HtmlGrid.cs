@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using System.Web.Routing;
 
 namespace TCEPR.Mvc.Grid
 {
@@ -10,12 +11,14 @@ namespace TCEPR.Mvc.Grid
         public IGrid<T> Grid { get; set; }
         public HtmlHelper Html { get; set; }
         public String PartialViewName { get; set; }
+        public string PartialViewNameMinified { get; set; }
 
         public HtmlGrid(HtmlHelper html, IGrid<T> grid)
         {
             grid.Query = grid.Query ?? new NameValueCollection(html.ViewContext.HttpContext.Request.QueryString);
             grid.HttpContext = grid.HttpContext ?? html.ViewContext.HttpContext;
             PartialViewName = "MvcGrid/_Grid";
+            PartialViewNameMinified = "MvcGrid/_GridMinified";
             Html = html;
             Grid = grid;
         }
@@ -114,7 +117,7 @@ namespace TCEPR.Mvc.Grid
 
         public virtual String ToHtmlString()
         {
-            return Html.Partial(PartialViewName, Grid).ToHtmlString();
+            return Html.Partial(Grid.IsMinified ? PartialViewNameMinified : PartialViewName, Grid).ToHtmlString();
         }
         public IHtmlGrid<T> AjaxUrl(String actionName, String controllerName)
         {
@@ -128,9 +131,21 @@ namespace TCEPR.Mvc.Grid
 
             return this;
         }
+        public IHtmlGrid<T> AjaxUrl(string controllerName, string actionName, RouteValueDictionary routeValues)
+        {
+            Grid.AjaxUrl = new UrlHelper(Html.ViewContext.RequestContext).Action(actionName, controllerName, routeValues);
+
+            return this;
+        }
         public IHtmlGrid<T> AjaxUrl(string controllerName, string actionName, object routeValues)
         {
             Grid.AjaxUrl = new UrlHelper(Html.ViewContext.RequestContext).Action(actionName, controllerName, routeValues);
+
+            return this;
+        }
+        public IHtmlGrid<T> AjaxUrl(string actionName, RouteValueDictionary routeValues)
+        {
+            Grid.AjaxUrl = new UrlHelper(Html.ViewContext.RequestContext).Action(actionName, routeValues);
 
             return this;
         }
@@ -154,5 +169,24 @@ namespace TCEPR.Mvc.Grid
 
             return this;
         }
+
+
+        public IHtmlGrid<T> SkipGridProcess(bool skipProcess)
+        {
+            Grid.SkipProcess = skipProcess;
+
+            return this;
+        }
+
+
+        public IHtmlGrid<T> SkipGridProcess(bool skipProcess, int totalRows)
+        {
+            Grid.SkipProcess = skipProcess;
+
+            if (Grid.Pager != null)
+                Grid.Pager.TotalRows = totalRows;
+
+            return this;
+        }        
     }
 }

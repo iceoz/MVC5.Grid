@@ -14,6 +14,9 @@ namespace TCEPR.Mvc.Grid
 
         public IQueryable<T> Process(IQueryable<T> items)
         {
+            if(Column.Grid.SkipProcess)
+                return items;
+
             Expression filterExpression = CreateFilterExpression();
             if (filterExpression == null)
                 return items;

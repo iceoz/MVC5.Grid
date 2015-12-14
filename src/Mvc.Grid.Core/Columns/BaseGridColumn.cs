@@ -12,11 +12,12 @@ namespace TCEPR.Mvc.Grid
         public String Format { get; set; }
         public String CssClasses { get; set; }
         public Boolean IsEncoded { get; set; }
-        public string GroupTitle { get; set; }
-        public string Tooltip { get; set; }
-        public string GroupTooltip { get; set; }
-        public string StyleInline { get; set; }
+        public String GroupTitle { get; set; }
+        public String Tooltip { get; set; }
+        public String GroupTooltip { get; set; }
+        public String StyleInline { get; set; }
         public Boolean IsVisible { get; set; }
+        public Boolean IsMinified { get; set; }
 
         public Boolean? IsSortable { get; set; }
         public GridSortOrder? FirstSortOrder { get; set; }
@@ -31,6 +32,8 @@ namespace TCEPR.Mvc.Grid
 
         public IGrid<T> Grid { get; set; }
         public Func<T, Object> RenderValue { get; set; }
+        public Func<T, Object> CssClassesValue { get; set; }
+        public Func<T, Object> StyleInlineValue { get; set; }
         public GridProcessorType ProcessorType { get; set; }
         public Func<T, TValue> ExpressionValue { get; set; }
         public Expression<Func<T, TValue>> Expression { get; set; }
@@ -68,12 +71,34 @@ namespace TCEPR.Mvc.Grid
 
             return this;
         }
+
+        public virtual IGridColumn<T> InitialSort(GridSortOrder order, bool executeSort)
+        {
+            if (executeSort)
+            {
+                InitialSortOrder = order;
+            }
+
+            return this;
+        }
+
         public virtual IGridColumn<T> FirstSort(GridSortOrder order)
         {
             FirstSortOrder = order;
 
             return this;
         }
+
+        public virtual IGridColumn<T> FirstSort(GridSortOrder order, bool executeSort)
+        {
+            if (executeSort)
+            {
+                FirstSortOrder = order;
+            }
+
+            return this;
+        }
+
         public virtual IGridColumn<T> Sortable(Boolean isSortable)
         {
             IsSortable = isSortable;
@@ -99,6 +124,12 @@ namespace TCEPR.Mvc.Grid
 
             return this;
         }
+        public virtual IGridColumn<T> Css(Func<T, Object> cssClasses)
+        {
+            CssClassesValue = cssClasses;
+
+            return this;
+        }
         public virtual IGridColumn<T> Titled(String title)
         {
             Title = title;
@@ -114,9 +145,11 @@ namespace TCEPR.Mvc.Grid
 
         public abstract IQueryable<T> Process(IQueryable<T> items);
         public abstract IHtmlString ValueFor(IGridRow row);
+        public abstract String CssClassesFor(IGridRow row);
+        public abstract String StyleInlineFor(IGridRow row);
 
 
-        public IGridColumn<T> GroupTitled(string groupTitle)
+        public virtual IGridColumn<T> GroupTitled(string groupTitle)
         {
             GroupTitle = groupTitle;
 
@@ -124,32 +157,49 @@ namespace TCEPR.Mvc.Grid
         }
 
 
-        public IGridColumn<T> Tooltiped(string tooltip)
+        public virtual IGridColumn<T> Tooltiped(string tooltip)
         {
             Tooltip = tooltip;
 
             return this;
         }
 
-        public IGridColumn<T> InlineStyled(string styleInline)
+        public virtual IGridColumn<T> InlineStyled(string styleInline)
         {
             StyleInline = styleInline;
 
             return this;
         }
 
-        public IGridColumn<T> Visible(bool isVisible)
+        public virtual IGridColumn<T> InlineStyled(Func<T, Object> styleInline)
+        {
+            StyleInlineValue = styleInline;
+
+            return this;
+        }
+
+        public virtual IGridColumn<T> Visible(bool isVisible)
         {
             IsVisible = isVisible;
 
             return this;
         }
 
-        public IGridColumn<T> GroupTooltiped(string tooltip)
+        public virtual IGridColumn<T> GroupTooltiped(string tooltip)
         {
             GroupTooltip = tooltip;
 
             return this;
-        }        
+        }
+
+
+        public virtual IGridColumn<T> Minified(bool isMinified)
+        {
+            IsMinified = isMinified;
+            Grid.IsMinified = true;
+
+            return this;
+        }
+        
     }
 }

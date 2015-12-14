@@ -66,6 +66,8 @@
     <Compile Include="Filtering\IGridFilters.cs" />
     <Compile Include="Filtering\Text\StringEndsWithFilter.cs" />
     <Compile Include="Filtering\Text\StringStartsWithFilter.cs" />
+    <Compile Include="Minified\GridColumnMinified.cs" />
+    <Compile Include="Minified\GridRowMinified.cs" />
     <Compile Include="MvcGrid.cs" />
     <Compile Include="Filtering\Text\StringContainsFilter.cs" />
     <Compile Include="Filtering\Text\StringEqualsFilter.cs" />

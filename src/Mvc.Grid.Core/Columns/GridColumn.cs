@@ -76,6 +76,9 @@ namespace TCEPR.Mvc.Grid
 
         public override IQueryable<T> Process(IQueryable<T> items)
         {
+            if (Grid.SkipProcess)
+                return items;
+
             if (IsFilterable == true && Filter != null)
                 items = Filter.Process(items);
 
@@ -164,6 +167,48 @@ namespace TCEPR.Mvc.Grid
                 default:
                     return "Text";
             }
+        }
+
+        public override string CssClassesFor(IGridRow row)
+        {
+            string cssClasses = CssClasses;
+
+            try
+            {
+                if (CssClassesValue != null && row != null && row.Model != null)
+                {
+                    object cssObj = CssClassesValue(row.Model as T);
+                    if (cssObj != null)
+                        cssClasses += " " + cssObj.ToString();
+                }
+            }
+            catch
+            {
+                return CssClasses;
+            }
+
+            return cssClasses;
+        }
+
+        public override string StyleInlineFor(IGridRow row)
+        {
+            string styleInline = StyleInline;
+
+            try
+            {
+                if (StyleInlineValue != null && row != null && row.Model != null)
+                {
+                    object styleObj = StyleInlineValue(row.Model as T);
+                    if (styleObj != null)
+                        styleInline += " " + styleObj.ToString();
+                }
+            }
+            catch
+            {
+                return StyleInline;
+            }
+
+            return styleInline;
         }
     }
 }

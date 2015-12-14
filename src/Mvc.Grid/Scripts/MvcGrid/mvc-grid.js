@@ -33,7 +33,7 @@ var MvcGrid = (function () {
             'Boolean': new MvcGridBooleanFilter()
         }, options.filters);
 
-        if (this.ajaxUrl != '') {
+        if (this.ajaxUrl != '' && this.sourceUrl == '') {
             options.isLoaded = true;
             this.sourceUrl = this.ajaxUrl;
         }
@@ -67,6 +67,16 @@ var MvcGrid = (function () {
         var pages = grid.find('.mvc-grid-pager span');
         for (var ind = 0; ind < pages.length; ind++) {
             this.applyPaging($(pages[ind]));
+        }
+
+        var pagerInput = grid.find('.mvc-grid-pager-input input');
+        if (pagerInput.length > 0) {
+            this.applyPaging($(pagerInput[0]));
+        }
+
+        var pagerRowsSelect = grid.find('.mvc-grid-pager-rowsperpage select');
+        if (pagerRowsSelect.length > 0) {
+            this.applyPaging($(pagerRowsSelect[0]));
         }
 
         this.bindGridEvents();
@@ -136,11 +146,39 @@ var MvcGrid = (function () {
             var page = pageElement.data('page') || '';
             var grid = this;
 
-            if (page != '') {
-                pageElement.on('click.mvcgrid', function () {
-                    grid.reload(grid.formPageQuery(page));
+            if (pageElement.is('input')) {
+                if (page != '') {
+                    pageElement.on('change', function () {
+                        page = parseInt(pageElement.val());
+                        if (page >= parseInt(pageElement.attr('min')) && page <= parseInt(pageElement.attr('max'))) {
+                            pageElement.data('page', page);
+                            grid.reload(grid.formPageQuery(page));
+                        } else if (page < parseInt(pageElement.attr('min'))) {
+                            page = parseInt(pageElement.attr('min'));
+                            pageElement.data('page', page);
+                            grid.reload(grid.formPageQuery(page));
+                        } else if (page > parseInt(pageElement.attr('max'))) {
+                            page = parseInt(pageElement.attr('max'));
+                            pageElement.data('page', page);
+                            grid.reload(grid.formPageQuery(page));
+                        } else {
+                            pageElement.val(pageElement.data('page'));
+                        }
+                    });
+                }
+            } else if (pageElement.is('select')) {
+                pageElement.on('change', function () {
+                    var rowsperpage = parseInt(pageElement.val());
+                    grid.reload(grid.formRowsPerPageQuery(rowsperpage));
                 });
+            } else {
+                if (page != '') {
+                    pageElement.on('click.mvcgrid', function () {
+                        grid.reload(grid.formPageQuery(page));
+                    });
+                }
             }
+
         },
 
         reload: function (query) {
@@ -191,6 +229,7 @@ var MvcGrid = (function () {
                         });
 
                         grid.element = $newGrid;
+                        grid.gridQuery = query;
 
                         if (grid.reloadEnded) {
                             grid.reloadEnded(grid);
@@ -337,15 +376,21 @@ var MvcGrid = (function () {
         formPageQuery: function (page) {
             return this.addOrReplace(this.gridQuery, this.name + '-Page', page);
         },
+        formRowsPerPageQuery: function (rowsperpage) {
+            return this.addOrReplace(this.gridQuery, this.name + '-RowsPerPage', rowsperpage);
+        },
         addOrReplace: function (query, key, value) {
+
             value = encodeURIComponent(value);
             key = encodeURIComponent(key);
+
             var params = query.split('&');
             var paramExists = false;
             var newParams = [];
 
             for (var i = 0; i < params.length; i++) {
                 if (params[i] !== '') {
+
                     var paramKey = params[i].split('=')[0];
                     if (paramKey == key) {
                         params[i] = key + '=' + value;
